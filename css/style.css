@@ -4772,3 +4772,9 @@ section {
 		background-position: center;
 	}
 }
+.tab__item{
+	cursor: pointer;
+}
+.current{
+	color: #C19D60 !important;
+}

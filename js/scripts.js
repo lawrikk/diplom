@@ -823,48 +823,51 @@ $(document).ready(function () {
 
 
 
-const timeEnd = '2022-03-11';
-function getTimeRemaining(endtime){
-    const t = Date.parse(endtime) - Date.parse(new Date()),
-    days = Math.floor(t/(1000 * 60 * 60 * 24)),
-    hours = Math.floor((t/(1000 * 60 * 60)) % 24),  
-    minutes = Math.floor((t / 1000 / 60) % 60),
-    seconds = Math.floor((t/1000) % 60);
-    return{
-        'total':t,
-        'days':days,
-        'hours':hours,  
-        'minutes':minutes,
-        'seconds':seconds
-    };
-}
-function setClock(countdown, endtime){
-    const timer = document.querySelector('.countdown'),
-    days = timer.querySelector('.days'),
-    hours = timer.querySelector('.hours'),
-    minutes = timer.querySelector('.minutes'),
-    seconds = timer.querySelector('.seconds'),
-    timeInterval = setInterval(updateClock, 1000);
-    updateClock();
-    function updateClock(){
-        const t = getTimeRemaining(endtime);
-        days.innerHTML = t.days;
-        hours.innerHTML = t.hours;
-        minutes.innerHTML = t.minutes;
-        seconds.innerHTML = t.seconds;
-        if(t.total<=0){
-            clearInterval(timeInterval);
-        }
-    }
-}
-setClock('.countdown', timeEnd);
+// const timeEnd = '2022-03-11';
+// function getTimeRemaining(endtime){
+//     const t = Date.parse(endtime) - Date.parse(new Date()),
+//     days = Math.floor(t/(1000 * 60 * 60 * 24)),
+//     hours = Math.floor((t/(1000 * 60 * 60)) % 24),  
+//     minutes = Math.floor((t / 1000 / 60) % 60),
+//     seconds = Math.floor((t/1000) % 60);
+//     return{
+//         'total':t,
+//         'days':days,
+//         'hours':hours,  
+//         'minutes':minutes,
+//         'seconds':seconds
+//     };
+// }
+// function setClock(countdown, endtime){
+//     const timer = document.querySelector('.countdown'),
+//     days = timer.querySelector('.days'),
+//     hours = timer.querySelector('.hours'),
+//     minutes = timer.querySelector('.minutes'),
+//     seconds = timer.querySelector('.seconds'),
+//     timeInterval = setInterval(updateClock, 1000);
+//     updateClock();
+//     function updateClock(){
+//         const t = getTimeRemaining(endtime);
+//         days.innerHTML = t.days;
+//         hours.innerHTML = t.hours;
+//         minutes.innerHTML = t.minutes;
+//         seconds.innerHTML = t.seconds;
+//         if(t.total<=0){
+//             clearInterval(timeInterval);
+//         }
+//     }
+// }
+// setClock('.countdown', timeEnd);
+
+
+    // tabs
     const tabs = document.querySelectorAll('.tab__item'),
-          tabsContent = document.querySelectorAll('.tab'),
-          tabsParent = document.querySelector('.tabs-menu');
+          tabsContent = document.querySelectorAll('.tab-content'),
+          tabsParent = document.querySelector('.hero-menu_header');
 
     function hideTabConent(){
         tabsContent.forEach(item =>{
-            item.style.display = 'block';
+            item.style.display = 'none';
         });
 
         tabs.forEach(item =>{
@@ -877,7 +880,7 @@ setClock('.countdown', timeEnd);
         tabs[i].classList.add('current');
     }
 
-    hideTabContent();
+    hideTabConent();
     showTabContent();
 
     tabsParent.addEventListener('click', (event)=>{
@@ -887,11 +890,45 @@ setClock('.countdown', timeEnd);
         if(target && target.classList.contains('tab__item')){
             tabs.forEach ((item,i)=>{
                 if(target == item){
-                    hideTabContent();
+                    hideTabConent();
                     showTabContent(i);     
                 }
             });  
 
-            
         }
     });
+    
+    // slides
+    const slides = document.querySelectorAll('.swiper-wrapper'),
+    prev = document.querySelector('.tc-button-prev'),
+    next = document.querySelector('.tc-button-next');
+    current = document.querySelector('#current');
+    let slideIndex = 1;
+
+
+function showSlides(n){
+    if(n>slides.length){
+        slideIndex = 1;
+    }
+    if(n<1){
+        slideIndex = slides.length;
+    } 
+    slides.forEach(item => item.style.display = "none");
+    slides[slideIndex - 1].style.display = "block";
+
+    if(slides.length <10){
+        current.textContent = `0${slideIndex}`;
+    }else{
+        current.textContent = slideIndex;
+    } 
+}
+showSlides(slideIndex); 
+    function plusSlides(n){
+        showSlides(slideIndex+=n);
+    }
+    prev.addEventListener('click', ()=> {
+       plusSlides(-1); 
+    });
+    next.addEventListener('click', ()=> {
+        plusSlides(1); 
+     });
